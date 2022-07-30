@@ -17,7 +17,7 @@ namespace AuthApp.Models
         public string Password { get; set; }
 
         [Display(Name ="Remenber me?")]
-        public bool RemenberMe { get; set; }
+        public bool RememberMe { get; set; }
 
     }
 }

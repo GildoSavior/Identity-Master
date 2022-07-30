@@ -4,8 +4,13 @@
 </h1>
 
 
-<form asp-controller="Account" asp-action="Register" method="Post" role="form" 
-class="flex flex-column justify-content-between">
+<form 
+    asp-controller="Account" 
+    asp-action="Register"  
+    asp-route-returnurl="@ViewData["ReturnUrl"]" 
+    method="Post" 
+    role="form" 
+>
     <h4>Create a new account</h4>
     <hr>
     <div asp-validation-summary="All" class = "text-danger">
