@@ -24,6 +24,18 @@
           "lib/netstandard1.1/Mailjet.Client.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Authentication.Facebook/6.0.7": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.AspNetCore.Cryptography.Internal/6.0.7": {
         "type": "package",
         "compile": {
@@ -1938,6 +1950,21 @@
         "lib/netstandard1.1/Mailjet.Client.dll",
         "mailjet.api.3.0.0.nupkg.sha512",
         "mailjet.api.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.Facebook/6.0.7": {
+      "sha512": "SosckGBoItf/qBBEfwc6uEhbYl70OcuZRdVj6m8lLaL0/wApw1MNe2bwWhWUsbXq8VxC95zi1liBEPKNO6rZ8w==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.facebook/6.0.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net6.0/Microsoft.AspNetCore.Authentication.Facebook.dll",
+        "lib/net6.0/Microsoft.AspNetCore.Authentication.Facebook.xml",
+        "microsoft.aspnetcore.authentication.facebook.6.0.7.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.facebook.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Cryptography.Internal/6.0.7": {
@@ -6632,12 +6659,14 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Mailjet.Api >= 3.0.0",
+      "Microsoft.AspNetCore.Authentication.Facebook >= 6.0.7",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.7",
       "Microsoft.AspNetCore.Identity.UI >= 6.0.7",
       "Microsoft.EntityFrameworkCore >= 6.0.7",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.7",
-      "Microsoft.EntityFrameworkCore.Tools >= 6.0.7"
+      "Microsoft.EntityFrameworkCore.Tools >= 6.0.7",
+      "Microsoft.Extensions.Identity.Core >= 6.0.7"
     ]
   },
   "packageFolders": {
@@ -6681,6 +6710,10 @@
             "target": "Package",
             "version": "[3.0.0, )"
           },
+          "Microsoft.AspNetCore.Authentication.Facebook": {
+            "target": "Package",
+            "version": "[6.0.7, )"
+          },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
             "version": "[6.0.7, )"
@@ -6706,6 +6739,10 @@
           "Microsoft.EntityFrameworkCore.Tools": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
+            "target": "Package",
+            "version": "[6.0.7, )"
+          },
+          "Microsoft.Extensions.Identity.Core": {
             "target": "Package",
             "version": "[6.0.7, )"
           }

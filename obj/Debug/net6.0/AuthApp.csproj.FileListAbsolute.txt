@@ -8,6 +8,7 @@
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/AuthApp.pdb
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Humanizer.dll
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Mailjet.Client.dll
+/home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.Facebook.dll
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Microsoft.AspNetCore.Cryptography.Internal.dll
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 /home/savior21/Documentos/DEV/MVC/AuthApp/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

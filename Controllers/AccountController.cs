@@ -1,30 +1,24 @@
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using AuthApp.Data;
 
 namespace AuthApp.Controllers
 {
     public class AccountController : Controller
     {
-
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _emailSender;
-        // private readonly AppDbContext _context;
         public AccountController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IEmailSender emailSender
-        // AppDbContext context
-
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            // _context = context;
         }
 
         [HttpGet]
@@ -34,7 +28,6 @@ namespace AuthApp.Controllers
             returnurl = returnurl ?? Url.Content("~/");
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,6 +55,106 @@ namespace AuthApp.Controllers
                     return View(model);
                 }
             }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ExternalLogin(string provider, string? returnurl = null)
+        {
+            var redirecturl = Url.Action(
+                "ExternalLoginCallback",
+                "Account",
+                new { ReturnUrl = returnurl }
+            );
+            var properties =
+            _signInManager.ConfigureExternalAuthenticationProperties(provider, redirecturl);
+
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnurl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Erro from provider:{remoteError}");
+                return View(nameof(Login));
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var result = await _signInManager.ExternalLoginSignInAsync(
+                info.LoginProvider,
+                info.ProviderKey,
+                isPersistent: false
+            );
+            if (result.Succeeded)
+            {
+                await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                return LocalRedirect(returnurl);
+            }
+            else
+            {
+                ViewData["ReturnUrl"] = returnurl;
+                returnurl = returnurl ?? Url.Content("~/");
+                ViewData["ProviderDiplayName"] = info.ProviderDisplayName;
+
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel
+                {
+                    Email = email,
+                    Name = name
+                });
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(
+            ExternalLoginConfirmationViewModel model,
+            string? returnurl = null
+        )
+        {
+            ViewData["ReturnUrl"] = returnurl;
+            returnurl = returnurl ?? Url.Content("~/");
+
+            if (ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("Error");
+                }
+
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Name = model.Name
+                };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        return LocalRedirect(returnurl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewData["ReturnUrl"] = returnurl;
+            returnurl = returnurl ?? Url.Content("~/");
             return View(model);
         }
 
@@ -143,12 +236,14 @@ namespace AuthApp.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null) {
+            if (userId == null || code == null)
+            {
                 return View("Error");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
-            if(user == null) {
+            if (user == null)
+            {
                 return View("Error");
             }
 
@@ -191,13 +286,10 @@ namespace AuthApp.Controllers
                     Email = model.Email,
                     Name = model.Name
                 };
-
                 var result = await _userManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
                     var code1 = _userManager.GenerateEmailConfirmationTokenAsync(user);
-
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
@@ -208,7 +300,6 @@ namespace AuthApp.Controllers
                         },
                         protocol: HttpContext.Request.Scheme
                     );
-
                     await _emailSender.SendEmailAsync(
                         model.Email,
                         "Confirm Your Account",
@@ -228,6 +319,8 @@ namespace AuthApp.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+  
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

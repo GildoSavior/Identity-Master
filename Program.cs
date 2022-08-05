@@ -20,6 +20,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IEmailSender, MailJetEmailSender>();
+
 builder.Services.Configure<IdentityOptions>(opt =>
 {
     opt.Password.RequiredLength = 5;
@@ -27,6 +28,12 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(60);
     opt.Lockout.MaxFailedAccessAttempts = 3;
 
+});
+
+builder.Services.AddAuthentication().AddFacebook(opt =>
+{
+    opt.AppId = "431617968909546";
+    opt.AppSecret = "81e154a369fd85fa00605acc8c24c3c8";
 });
 
 var app = builder.Build();

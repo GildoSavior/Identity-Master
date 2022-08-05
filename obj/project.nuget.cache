@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Ot6NUcsx5NkVHnF7e+ebuXqobrFTqC36TrwrbmY92Z6oAfR7YEcbVp30wZZX9sVMVfN2WDIFhA4CfafmB/NdHQ==",
+  "dgSpecHash": "ekcH7HGVZ+5EwatF89qbtA6YNlNIs3VWLqwU6rf7oH29Jg4oSaLqiaAYhDVVo/R7x8OlOWqbylTt2SP4Y8Xwtg==",
   "success": true,
   "projectFilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/AuthApp.csproj",
   "expectedPackageFiles": [
     "/home/savior21/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/home/savior21/.nuget/packages/mailjet.api/3.0.0/mailjet.api.3.0.0.nupkg.sha512",
+    "/home/savior21/.nuget/packages/microsoft.aspnetcore.authentication.facebook/6.0.7/microsoft.aspnetcore.authentication.facebook.6.0.7.nupkg.sha512",
     "/home/savior21/.nuget/packages/microsoft.aspnetcore.cryptography.internal/6.0.7/microsoft.aspnetcore.cryptography.internal.6.0.7.nupkg.sha512",
     "/home/savior21/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/6.0.7/microsoft.aspnetcore.cryptography.keyderivation.6.0.7.nupkg.sha512",
     "/home/savior21/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/6.0.7/microsoft.aspnetcore.identity.entityframeworkcore.6.0.7.nupkg.sha512",
