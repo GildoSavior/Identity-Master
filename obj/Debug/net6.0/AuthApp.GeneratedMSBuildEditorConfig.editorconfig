@@ -15,8 +15,16 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/savior21/Documentos/DEV/MVC/AuthApp
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/AuthenticatorConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BdXRoZW50aWNhdG9yQ29uZmlybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/ConfirmEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Db25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/EnableAuthenticator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9FbmFibGVBdXRoZW50aWNhdG9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/Error.cshtml]
@@ -53,6 +61,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/ResetPasswordConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9SZXNldFBhc3N3b3JkQ29uZmlybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/VerifyAuthenticatorCode.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9WZXJpZnlBdXRoZW50aWNhdG9yQ29kZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Home/Index.cshtml]

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "OAE4xl3snpm4LnQhX/qMwLbYM4VrmfP6qHHdAepWiNw=",
+  "Hash": "+8vGE/KpzgLEAy5CuL62cmv4VDk1RjuXY+cbod6MWq8=",
   "Source": "AuthApp",
   "BasePath": "_content/AuthApp",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/home/savior21/Documentos/DEV/MVC/AuthApp/wwwroot/js/qrcode.js",
+      "SourceId": "AuthApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/savior21/Documentos/DEV/MVC/AuthApp/wwwroot/",
+      "BasePath": "_content/AuthApp",
+      "RelativePath": "js/qrcode.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/qrcode.js"
     },
     {
       "Identity": "/home/savior21/Documentos/DEV/MVC/AuthApp/wwwroot/js/site.js",

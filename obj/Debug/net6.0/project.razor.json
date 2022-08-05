@@ -16343,6 +16343,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/EnableAuthenticator.cshtml",
+      "TargetPath": "Views\\Account\\EnableAuthenticator.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
@@ -16350,6 +16355,11 @@
     {
       "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/ResetPasswordConfirmation.cshtml",
       "TargetPath": "Views\\Account\\ResetPasswordConfirmation.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/AuthenticatorConfirmation.cshtml",
+      "TargetPath": "Views\\Account\\AuthenticatorConfirmation.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -16385,6 +16395,11 @@
     {
       "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/home/savior21/Documentos/DEV/MVC/AuthApp/Views/Account/VerifyAuthenticatorCode.cshtml",
+      "TargetPath": "Views\\Account\\VerifyAuthenticatorCode.cshtml",
       "FileKind": "mvc"
     }
   ],
