@@ -1,4 +1,6 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AuthApp.Models
 {
@@ -19,8 +21,11 @@ namespace AuthApp.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm PassWord")]
         public String ConfirmPassword { get; set; }
-        
+
         [Required]
         public string Name { get; set; }
+
+        public IEnumerable<SelectListItem> RoleList { get; set; }
+        public string SelectedRole { get; set; }
     }
 }

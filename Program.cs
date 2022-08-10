@@ -30,6 +30,10 @@ builder.Services.Configure<IdentityOptions>(opt =>
 
 });
 
+builder.Services.ConfigureApplicationCookie(opt => {
+    opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/AccessDenied");
+});
+
 builder.Services.AddAuthentication().AddFacebook(opt =>
 {
     opt.AppId = "431617968909546";

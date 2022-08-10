@@ -3,29 +3,36 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AuthApp.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly UrlEncoder _urlEncoder;
         public AccountController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             UrlEncoder urlEncoder
         )
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _urlEncoder = urlEncoder;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string? returnurl = null)
         {
             ViewData["ReturnUrl"] = returnurl;
@@ -34,6 +41,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnurl = null)
         {
@@ -69,6 +77,7 @@ namespace AuthApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public IActionResult ExternalLogin(string provider, string? returnurl = null)
         {
             var redirecturl = Url.Action(
@@ -83,6 +92,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string? returnurl = null, string remoteError = null)
         {
             if (remoteError != null)
@@ -129,6 +139,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(
             ExternalLoginConfirmationViewModel model,
@@ -155,6 +166,7 @@ namespace AuthApp.Controllers
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "User");
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -171,6 +183,7 @@ namespace AuthApp.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -178,6 +191,7 @@ namespace AuthApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
 
@@ -216,6 +230,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ResetPassword(string? code = null)
         {
             return code == null ? View("Error") : View();
@@ -223,6 +238,7 @@ namespace AuthApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
 
@@ -247,6 +263,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -265,29 +282,81 @@ namespace AuthApp.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(string? returnurl = null)
         {
+
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+            }
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            
+            listItems.Add(
+                new SelectListItem()
+                {
+                    Value = "Admin",
+                    Text = "Admin"
+                }
+            );
+            listItems.Add(
+                new SelectListItem()
+                {
+                    Value = "User",
+                    Text = "User"
+                }
+            );
+
             ViewData["ReturnUrl"] = returnurl;
+
+            RegisterViewModel model = new RegisterViewModel()
+            {
+                RoleList = listItems
+            };
+
             returnurl = returnurl ?? Url.Content("~/");
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string? returnurl = null)
         {
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(
+                new SelectListItem()
+                {
+                    Value = "Admin",
+                    Text = "Admin"
+                }
+            );
+            listItems.Add(
+                new SelectListItem()
+                {
+                    Value = "User",
+                    Text = "User"
+                }
+            );
+
+            model.RoleList = listItems;
+
             ViewData["ReturnUrl"] = returnurl;
             returnurl = returnurl ?? Url.Content("~/");
 
@@ -302,6 +371,19 @@ namespace AuthApp.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    if (
+                        model.SelectedRole != null &&
+                        model.SelectedRole.Length > 0 &&
+                        model.SelectedRole == "Admin"
+                    )
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+
                     var code1 = _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",

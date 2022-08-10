@@ -32,8 +32,13 @@ public class HomeController : Controller
     }
 
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    public IActionResult AccessDenied()
     {
         return View();
     }
