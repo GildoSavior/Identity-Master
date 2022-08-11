@@ -14,30 +14,18 @@ public class HomeController : Controller
         _logger = logger;
         _userManager = userManager;
     }
-
     public async Task<IActionResult> Index()
     {
         var user = await _userManager.GetUserAsync(User);
-
-        if (user == null)
-        {
-            ViewData["TwoFactorEnabled"] = false;
-        }
-        else
-        {
-            ViewData["TwoFactorEnabled"] = user.TwoFactorEnabled;
-        }
-
+        if (user == null) { ViewData["TwoFactorEnabled"] = false; }
+        else { ViewData["TwoFactorEnabled"] = user.TwoFactorEnabled; }
         return View();
     }
-
-
     [Authorize(Roles = "Admin")]
     public IActionResult Privacy()
     {
         return View();
     }
-
     public IActionResult AccessDenied()
     {
         return View();

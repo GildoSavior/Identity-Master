@@ -47,7 +47,6 @@ namespace AuthApp.Controllers
         {
             ViewData["ReturnUrl"] = returnurl;
             returnurl = returnurl ?? Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(
@@ -299,37 +298,19 @@ namespace AuthApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(string? returnurl = null)
         {
-
             if (!await _roleManager.RoleExistsAsync("Admin"))
             {
                 await _roleManager.CreateAsync(new IdentityRole("Admin"));
                 await _roleManager.CreateAsync(new IdentityRole("User"));
             }
-
             List<SelectListItem> listItems = new List<SelectListItem>();
-            
-            listItems.Add(
-                new SelectListItem()
-                {
-                    Value = "Admin",
-                    Text = "Admin"
-                }
-            );
-            listItems.Add(
-                new SelectListItem()
-                {
-                    Value = "User",
-                    Text = "User"
-                }
-            );
+            listItems.Add(new SelectListItem() { Value = "Admin", Text = "Admin" });
+            listItems.Add(new SelectListItem() { Value = "User", Text = "User" });
+
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            registerViewModel.RoleList = listItems;
 
             ViewData["ReturnUrl"] = returnurl;
-
-            RegisterViewModel model = new RegisterViewModel()
-            {
-                RoleList = listItems
-            };
-
             returnurl = returnurl ?? Url.Content("~/");
             return View();
         }
@@ -340,21 +321,8 @@ namespace AuthApp.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string? returnurl = null)
         {
             List<SelectListItem> listItems = new List<SelectListItem>();
-            listItems.Add(
-                new SelectListItem()
-                {
-                    Value = "Admin",
-                    Text = "Admin"
-                }
-            );
-            listItems.Add(
-                new SelectListItem()
-                {
-                    Value = "User",
-                    Text = "User"
-                }
-            );
-
+            listItems.Add(new SelectListItem() { Value = "Admin", Text = "Admin" });
+            listItems.Add(new SelectListItem() { Value = "User", Text = "User" });    
             model.RoleList = listItems;
 
             ViewData["ReturnUrl"] = returnurl;
@@ -372,9 +340,9 @@ namespace AuthApp.Controllers
                 if (result.Succeeded)
                 {
                     if (
-                        model.SelectedRole != null &&
-                        model.SelectedRole.Length > 0 &&
-                        model.SelectedRole == "Admin"
+                        model.RoleSelected != null &&
+                        model.RoleSelected.Length > 0 &&
+                        model.RoleSelected == "Admin"
                     )
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
@@ -385,6 +353,8 @@ namespace AuthApp.Controllers
                     }
 
                     var code1 = _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+
                     var callbackUrl = Url.Action(
                         "ConfirmEmail",
                         "Account",
@@ -395,6 +365,7 @@ namespace AuthApp.Controllers
                         },
                         protocol: HttpContext.Request.Scheme
                     );
+                    
                     await _emailSender.SendEmailAsync(
                         model.Email,
                         "Confirm Your Account",
@@ -419,18 +390,15 @@ namespace AuthApp.Controllers
         public async Task<IActionResult> EnableAuthenticator()
         {
             string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-
             var user = await _userManager.GetUserAsync(User);
             await _userManager.ResetAuthenticatorKeyAsync(user);
             var token = await _userManager.GetAuthenticatorKeyAsync(user);
-
             string AuthenticatorUri = string.Format(
                 AuthenticatorUriFormat,
                 _urlEncoder.Encode("IdentityManager"),
                 _urlEncoder.Encode(user.Email),
                 token
             );
-
             var model = new TwoFactorAuthenticationViewModel() { Token = token, QRCodeUrl = AuthenticatorUri };
             return View(model);
         }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -25,7 +24,7 @@ namespace AuthApp.Models
         [Required]
         public string Name { get; set; }
 
-        public IEnumerable<SelectListItem> RoleList { get; set; }
-        public string SelectedRole { get; set; }
+        public IEnumerable<SelectListItem>? RoleList { get; set; } 
+        public string RoleSelected { get; set; }
     }
 }

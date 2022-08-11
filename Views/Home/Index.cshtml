@@ -8,14 +8,19 @@
     @if(User.Identity.IsAuthenticated) {
         
         var twoFactor = ViewData["TwoFactorEnabled"];
+
         if(twoFactor !=null & twoFactor.ToString().ToLower() == "true") {
-            <a asp-action="RemoveAuthenticator" asp-controller="Account" class="btn btn-warning">Reset and Remove Two Factor Auth</a>
+            <a 
+                asp-action="RemoveAuthenticator" 
+                asp-controller="Account" 
+                class="btn btn-warning"
+            >
+                Reset and Remove Two Factor Auth
+            </a>
         } else {
             <a asp-action="EnableAuthenticator" asp-controller="Account">Set Up Two Factor Auth</a>
         }
-    
         <br/><br/>
-
         @if(User.IsInRole("Admin")) {
             <h2>Your Role is - Admin</h2>
         } 
@@ -23,6 +28,4 @@
             <h2>Your Role is - Single User</h2>
         }
     }
-
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
